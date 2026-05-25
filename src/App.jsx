@@ -237,12 +237,13 @@ export default function App() {
         body: JSON.stringify({ base64, mediaType: file.type })
       });
       const data = await res.json();
-      const text = data.content.map(c => c.text||'').join('');
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      if (!text) throw new Error('No response');
       const parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
-      if (parsed.date) setOrderDate(parsed.date);
-      const parsedItems = parsed.items || parsed;
+      if (parsed && parsed.date) setOrderDate(parsed.date);
+      const parsedItems = Array.isArray(parsed) ? parsed : (parsed.items || []);
       setItems(prev => [...prev, ...parsedItems.map(item => ({
-        id:Date.now()+Math.random(), name:item.name,
+        id:Date.now()+Math.random(), name:item.name||'Item',
         price:parseFloat(item.price)||0, qty:parseInt(item.qty)||1, assignedTo:{}
       }))]);
     } catch(err) {
