@@ -222,6 +222,7 @@ export default function App() {
 
   // ── Scan ──
   const scanReceipt = async file => {
+    if (!file) return;
     setScanning(true);
     try {
       const base64 = await new Promise((res,rej) => {
@@ -245,11 +246,10 @@ export default function App() {
         price:parseFloat(item.price)||0, qty:parseInt(item.qty)||1, assignedTo:{}
       }))]);
     } catch(err) {
-      console.error(err);
+      console.error('Scan failed:', err);
+    } finally {
       setScanning(false);
-      return;
     }
-    setScanning(false);
   };
 
   // ── Totals ──
