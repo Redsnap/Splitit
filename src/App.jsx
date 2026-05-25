@@ -247,7 +247,6 @@ export default function App() {
     } catch(err) {
       console.error(err);
       setScanning(false);
-      alert('Could not parse receipt. Add items manually.');
       return;
     }
     setScanning(false);
