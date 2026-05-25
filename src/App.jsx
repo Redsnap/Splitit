@@ -244,7 +244,7 @@ export default function App() {
         id:Date.now()+Math.random(), name:item.name,
         price:parseFloat(item.price)||0, qty:parseInt(item.qty)||1, assignedTo:{}
       }))]);
-    } catch(err) { console.error(err); alert('Could not parse receipt. Add items manually.'); }
+    } catch(err) { console.error(err); alert('Could not parse receipt. Add items manually.'); setScanning(false); return; }
     setScanning(false);
   };
 
